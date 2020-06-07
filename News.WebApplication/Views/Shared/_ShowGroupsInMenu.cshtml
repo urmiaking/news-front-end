@@ -4,7 +4,7 @@
     var listGroups = await GroupRepository.GetListGroups();
 }
 <ul>
-    <li><a href=""> صفحه اصلی </a></li>
+    <li><a asp-controller="Home" asp-action="Index"> صفحه اصلی </a></li>
     <li>
         <span>گروه های خبری</span>
         <ul>
@@ -20,4 +20,28 @@
             }
         </ul>
     </li>
+    @if (User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("admin"))
+        {
+            <li class="pull-left">
+                <a asp-area="Admin" asp-action="Index" asp-controller="Home">ورود به صفحه مدیریت</a>
+            </li>
+        }
+        else
+        {
+            <li class="pull-left">
+                <a href="">خوش آمدید - @User.Identity.Name</a>
+            </li>
+        }
+    }
+    else
+    {
+        <li class="pull-left">
+            <a asp-controller="Account" asp-action="Login">ورود</a>
+        </li>
+        <li class="pull-left">
+            <a asp-controller="Account" asp-action="Register">ثبت نام</a>
+        </li>
+    }
 </ul>

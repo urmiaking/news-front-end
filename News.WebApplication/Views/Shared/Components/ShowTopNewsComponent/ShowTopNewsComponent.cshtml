@@ -8,7 +8,7 @@
             <li>
                 <img class="border-radius" src="/img/news-images/@item.ImageName">
                 <h2> <a asp-action="News" asp-route-id="@item.Id">@item.Title</a></h2>
-                <span>انتشار : @item.CreateDate.ToPersianDateTime())</span>
+                <span>انتشار : @item.CreateDate.ToPersianDateString()</span>
             </li>
         }
     </ul>

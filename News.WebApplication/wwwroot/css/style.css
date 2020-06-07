@@ -749,3 +749,8 @@ footer{
   .comment-layer ul li .alert-report,.comment-layer ul li .answer-button{display: none}
   .comment-form div,.comment-form textarea{width: 100%;float:none}
 }
+
+.header-logo {
+    width: 60px !important;
+    height: 60px !important;
+}

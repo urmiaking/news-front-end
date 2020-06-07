@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace News.Models.DomainModels
+namespace News.Models.ViewModels
 {
-    public class User
+    public class UserLoginViewModel
     {
-        public int Id { get; set; }
-
         [Display(Name = "ایمیل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(100, ErrorMessage = "لطفا حداکثر 100 کاراکتر وارد نمایید")]
@@ -17,22 +15,10 @@ namespace News.Models.DomainModels
 
         [Display(Name = "رمز عبور")]
         [DataType(DataType.Password)]
+        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string Password { get; set; }
 
-        [Display(Name = "نام کامل")]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
-        [MaxLength(100, ErrorMessage = "لطفا حداکثر 100 کاراکتر وارد نمایید")]
-        public string FullName { get; set; }
-
-        public UserTypes UserType { get; set; }
-
-        public string ResetPasswordCode { get; set; }
-
-        public virtual ICollection<Comment> Comments { get; set; }
-    }
-
-    public enum UserTypes
-    {
-        admin, user
+        [Display(Name = "مرا بخاطر بسپار")]
+        public bool RememberMe { get; set; }
     }
 }
