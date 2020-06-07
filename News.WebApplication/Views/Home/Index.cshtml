@@ -1,0 +1,53 @@
+﻿@model IndexNewsViewModel
+
+@{
+    ViewData["Title"] = "صفحه اصلی";
+}
+
+
+<!-- slider -->
+@if (Model.SliderNews.Any())
+{
+    <div class="news-slider border-radius">
+        <div id="slider-one" class="owl-carousel">
+            @foreach (var item in Model.SliderNews)
+            {
+                <!-- each item -->
+                <div class="item">
+                    <img src="img/news-images/@item.ImageName">
+                    <div class="left-side">
+                        <h2> <a asp-action="News" asp-route-id="@item.Id">@item.Title</a> </h2>
+                        <p>
+                            @item.ShortDescription
+                        </p>
+                        <span> <i class="fa fa-calendar"></i> انتشار : @item.CreateDate.ToPersianDateTimeString()</span>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <!-- end each item -->
+            }
+        </div>
+        <a href="" class="news-archive"> <i class="icons icon-doc-1"></i> آرشیو کامل خبرها </a>
+    </div>
+}
+
+<!-- End slider -->
+<!-- last news -->
+<section class="last-news-section border-radius margin-top-60">
+    <header><i class="icons icon-doc-2"></i>  <h3>آخرین آخبار ارسالی</h3> </header>
+    <ul>
+        @foreach (var item in Model.LatestNews)
+        {
+            <li>
+                <img class="border-radius" src="img/news-images/@item.ImageName">
+                <h2> <a asp-action="News" asp-route-id="@item.Id"> @item.Title </a></h2>
+                <p>
+                    @item.ShortDescription
+                </p>
+                <span class="date-publish"><i class="fa fa-calendar"></i> انتشار : @item.CreateDate.ToPersianDateTimeString() </span>
+                <a href="" class="more-link"><i class="icons icon-more"></i></a>
+            </li>
+        }
+    </ul>
+</section>
+<!-- End last news -->

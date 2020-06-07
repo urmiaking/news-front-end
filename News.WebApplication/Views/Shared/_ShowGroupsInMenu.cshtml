@@ -1,0 +1,23 @@
+﻿@inject INewsGroupRepository GroupRepository
+
+@{
+    var listGroups = await GroupRepository.GetListGroups();
+}
+<ul>
+    <li><a href=""> صفحه اصلی </a></li>
+    <li>
+        <span>گروه های خبری</span>
+        <ul>
+            @foreach (var item in listGroups)
+            {
+                <li>
+                    <a asp-action="Group"
+                       asp-route-groupId="@item.GroupId"
+                       asp-route-groupTitle="@item.GroupTitle">
+                        @item.GroupTitle
+                    </a>
+                </li>
+            }
+        </ul>
+    </li>
+</ul>
