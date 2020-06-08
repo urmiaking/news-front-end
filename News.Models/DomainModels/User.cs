@@ -26,6 +26,8 @@ namespace News.Models.DomainModels
 
         public UserTypes UserType { get; set; }
 
+        public bool IsActive { get; set; }
+
         public string ResetPasswordCode { get; set; }
 
         public virtual ICollection<Comment> Comments { get; set; }

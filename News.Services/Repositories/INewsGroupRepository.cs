@@ -9,14 +9,14 @@ namespace News.Services.Repositories
 {
     public interface INewsGroupRepository
     {
-        Task<List<NewsGroup>> GetAllNewsGroups();
-        Task<NewsGroup> GetNewsGroupById(int groupId);
-        Task InsertNewsGroup(NewsGroup newsGroup);
-        Task UpdateNewsGroup(NewsGroup newsGroup);
-        Task DeleteNewsGroup(NewsGroup newsGroup);
-        Task DeleteNewsGroup(int groupId);
-        Task<bool> NewsGroupExists(int newsGroupId);
-        Task<List<ShowGroupsViewModel>> GetListGroups();
-        Task Save();
+        Task<List<NewsGroup>> GetAllNewsGroupsAsync();
+        Task<NewsGroup> GetNewsGroupByIdAsync(int groupId);
+        Task InsertNewsGroupAsync(NewsGroup newsGroup);
+        Task UpdateNewsGroupAsync(NewsGroup newsGroup);
+        Task DeleteNewsGroupAsync(NewsGroup newsGroup);
+        Task DeleteNewsGroupAsync(int groupId);
+        Task<bool> NewsGroupExistsAsync(int newsGroupId);
+        Task<List<ShowGroupsViewModel>> GetListGroupsAsync();
+        Task SaveAsync();
     }
 }

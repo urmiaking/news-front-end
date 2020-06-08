@@ -8,29 +8,29 @@ namespace News.Services.Repositories
 {
     public interface INewsRepository
     {
-        Task<IEnumerable<Models.DomainModels.News>> GetAllNews();
+        Task<IEnumerable<Models.DomainModels.News>> GetAllNewsAsync();
 
-        Task<IEnumerable<Models.DomainModels.News>> GetTopNews(int take = 4);
+        Task<IEnumerable<Models.DomainModels.News>> GetTopNewsAsync(int take = 4);
 
-        Task<IEnumerable<Models.DomainModels.News>> GetLatestNews(int take = 3);
+        Task<IEnumerable<Models.DomainModels.News>> GetLatestNewsAsync(int take = 3);
 
-        Task<IEnumerable<Models.DomainModels.News>> GetSliderNews();
+        Task<IEnumerable<Models.DomainModels.News>> GetSliderNewsAsync();
 
-        Task<IEnumerable<Models.DomainModels.News>> GetNewsByGroupId(int groupId);
+        Task<IEnumerable<Models.DomainModels.News>> GetNewsByGroupIdAsync(int groupId);
 
-        Task<IEnumerable<Models.DomainModels.News>> Search(string q);
+        Task<IEnumerable<Models.DomainModels.News>> SearchAsync(string q);
 
-        Task<Models.DomainModels.News> GetNewsById(int newsId);
+        Task<Models.DomainModels.News> GetNewsByIdAsync(int newsId);
 
-        Task InsertNews(Models.DomainModels.News news);
+        Task InsertNewsAsync(Models.DomainModels.News news);
 
-        Task UpdateNews(Models.DomainModels.News news);
+        Task UpdateNewsAsync(Models.DomainModels.News news);
 
-        Task DeleteNews(Models.DomainModels.News news);
+        Task DeleteNewsAsync(Models.DomainModels.News news);
 
-        Task DeleteNews(int newsId);
+        Task DeleteNewsAsync(int newsId);
 
-        Task<bool> NewsExists(int newsId);
+        Task<bool> NewsExistsAsync(int newsId);
 
         Task Save();
     }

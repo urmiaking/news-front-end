@@ -1,47 +1,50 @@
 ﻿@inject INewsGroupRepository GroupRepository
 
 @{
-    var listGroups = await GroupRepository.GetListGroups();
+    var listGroups = await GroupRepository.GetListGroupsAsync();
 }
-<ul>
-    <li><a asp-controller="Home" asp-action="Index"> صفحه اصلی </a></li>
-    <li>
-        <span>گروه های خبری</span>
-        <ul>
-            @foreach (var item in listGroups)
+    <ul>
+        <li><a asp-controller="Home" asp-action="Index"> صفحه اصلی </a></li>
+        <li>
+            <span>گروه های خبری</span>
+            <ul>
+                @foreach (var item in listGroups)
+                {
+                    <li>
+                        <a asp-action="Group"
+                           asp-route-groupId="@item.GroupId"
+                           asp-route-groupTitle="@item.GroupTitle">
+                            @item.GroupTitle
+                        </a>
+                    </li>
+                }
+            </ul>
+        </li>
+        @if (User.Identity.IsAuthenticated)
+        {
+            if (User.IsInRole("admin"))
             {
-                <li>
-                    <a asp-action="Group"
-                       asp-route-groupId="@item.GroupId"
-                       asp-route-groupTitle="@item.GroupTitle">
-                        @item.GroupTitle
-                    </a>
+                <li class="pull-left">
+                    <a asp-area="Admin" asp-action="Index" asp-controller="Home">ورود به صفحه مدیریت</a>
                 </li>
             }
-        </ul>
-    </li>
-    @if (User.Identity.IsAuthenticated)
-    {
-        if (User.IsInRole("admin"))
-        {
-            <li class="pull-left">
-                <a asp-area="Admin" asp-action="Index" asp-controller="Home">ورود به صفحه مدیریت</a>
-            </li>
+            else
+            {
+                <li class="pull-left">
+                    <b><a asp-controller="Account" asp-action="LogOut"><span class="fa fa-power-off">خروج</span></a></b>
+                </li>
+                <li class="pull-left">
+                    <a href="">مشاهده پروفایل </a>
+                </li>
+            }
         }
         else
         {
             <li class="pull-left">
-                <a href="">خوش آمدید - @User.Identity.Name</a>
+                <a asp-controller="Account" asp-action="Login">ورود</a>
+            </li>
+            <li class="pull-left">
+                <a asp-controller="Account" asp-action="Register">ثبت نام</a>
             </li>
         }
-    }
-    else
-    {
-        <li class="pull-left">
-            <a asp-controller="Account" asp-action="Login">ورود</a>
-        </li>
-        <li class="pull-left">
-            <a asp-controller="Account" asp-action="Register">ثبت نام</a>
-        </li>
-    }
-</ul>
+    </ul>

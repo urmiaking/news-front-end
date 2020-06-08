@@ -126,43 +126,43 @@ namespace News.Services.Services
                 NewsGroup = newsGroups.FirstOrDefault(a => a.Id.Equals(3))
             });
         }
-        
 
-        public async Task<IEnumerable<Models.DomainModels.News>> GetAllNews()
+
+        public async Task<IEnumerable<Models.DomainModels.News>> GetAllNewsAsync()
         {
             await Task.Run(() => { return news; });
             return news;
         }
 
-        public async Task<IEnumerable<Models.DomainModels.News>> GetTopNews(int take = 4)
+        public async Task<IEnumerable<Models.DomainModels.News>> GetTopNewsAsync(int take = 4)
         {
             var topNews = news.OrderByDescending(a => a.VisitCount).Take(take).ToList();
             await Task.Run(() => { return topNews; });
             return topNews;
         }
 
-        public async Task<IEnumerable<Models.DomainModels.News>> GetLatestNews(int take = 3)
+        public async Task<IEnumerable<Models.DomainModels.News>> GetLatestNewsAsync(int take = 3)
         {
             var latestNews = news.OrderByDescending(a => a.CreateDate).Take(take).ToList();
             await Task.Run(() => { return latestNews; });
             return latestNews;
         }
 
-        public async Task<IEnumerable<Models.DomainModels.News>> GetSliderNews()
+        public async Task<IEnumerable<Models.DomainModels.News>> GetSliderNewsAsync()
         {
             var sliderNews = news.Where(a => a.ShowInSlider).ToList();
             await Task.Run(() => { return sliderNews; });
             return sliderNews;
         }
 
-        public async Task<IEnumerable<Models.DomainModels.News>> GetNewsByGroupId(int groupId)
+        public async Task<IEnumerable<Models.DomainModels.News>> GetNewsByGroupIdAsync(int groupId)
         {
             var newsInGroup = news.Where(a => a.NewsGroupId.Equals(groupId)).OrderByDescending(a => a.CreateDate).ToList();
             await Task.Run(() => { return newsInGroup; });
             return newsInGroup;
         }
 
-        public async Task<IEnumerable<Models.DomainModels.News>> Search(string q)
+        public async Task<IEnumerable<Models.DomainModels.News>> SearchAsync(string q)
         {
             var list = news.Where(p =>
                 p.Title.Contains(q) || p.ShortDescription.Contains(q) || p.Description.Contains(q) ||
@@ -171,36 +171,36 @@ namespace News.Services.Services
             return list;
         }
 
-        public async Task<Models.DomainModels.News> GetNewsById(int newsId)
+        public async Task<Models.DomainModels.News> GetNewsByIdAsync(int newsId)
         {
             var newsItem = news.FirstOrDefault(a => a.Id.Equals(newsId));
             await Task.Run(() => { return newsItem; });
             return newsItem;
         }
 
-        public async Task InsertNews(Models.DomainModels.News addedNews)
+        public async Task InsertNewsAsync(Models.DomainModels.News addedNews)
         {
             await Task.Run(() => { news.Add(addedNews); });
         }
 
-        public async Task UpdateNews(Models.DomainModels.News incomingNews)
+        public async Task UpdateNewsAsync(Models.DomainModels.News incomingNews)
         {
-            await DeleteNews(incomingNews);
-            await InsertNews(incomingNews);
+            await DeleteNewsAsync(incomingNews);
+            await InsertNewsAsync(incomingNews);
         }
 
-        public async Task DeleteNews(Models.DomainModels.News incomingNews)
+        public async Task DeleteNewsAsync(Models.DomainModels.News incomingNews)
         {
             await Task.Run(() => news.Remove(incomingNews));
         }
 
-        public async Task DeleteNews(int newsId)
+        public async Task DeleteNewsAsync(int newsId)
         {
-            var deletedNews = await GetNewsById(newsId);
-            await DeleteNews(deletedNews);
+            var deletedNews = await GetNewsByIdAsync(newsId);
+            await DeleteNewsAsync(deletedNews);
         }
 
-        public async Task<bool> NewsExists(int newsId)
+        public async Task<bool> NewsExistsAsync(int newsId)
         {
             var newsExist = news.Any(a => a.Id.Equals(newsId));
             await Task.Run(() => { return newsExist; });

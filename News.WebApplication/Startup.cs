@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,13 @@ namespace News.WebApplication
             services.AddControllersWithViews();
             services.AddSingleton<INewsRepository, FakeNewsRepository>();
             services.AddSingleton<INewsGroupRepository, FakeNewsGroupRepository>();
+            services.AddSingleton<IUserRepository, FakeUserRepository>();
+            services.AddHttpContextAccessor();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.Cookie.Name = "_u_r_m_i_a_King";
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -41,6 +49,8 @@ namespace News.WebApplication
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

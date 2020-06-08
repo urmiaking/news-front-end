@@ -19,7 +19,7 @@ namespace News.WebApplication.ViewComponents
         public async Task<IViewComponentResult> InvokeAsync()
         {
             return await Task.FromResult((IViewComponentResult) View("ShowTopNewsComponent",
-                await _newsRepository.GetTopNews()));
+                await _newsRepository.GetTopNewsAsync()));
         }
     }
 }

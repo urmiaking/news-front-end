@@ -35,49 +35,49 @@ namespace News.Services.Services
                 GroupTitle = "اقتصادی"
             });
         }
-        public async Task<List<NewsGroup>> GetAllNewsGroups()
+        public async Task<List<NewsGroup>> GetAllNewsGroupsAsync()
         {
             await Task.Run(() => { return newsGroups; });
             return newsGroups;
         }
 
-        public async Task<NewsGroup> GetNewsGroupById(int groupId)
+        public async Task<NewsGroup> GetNewsGroupByIdAsync(int groupId)
         {
             var newsGroup = newsGroups.FirstOrDefault(a => a.Id.Equals(groupId));
             await Task.Run(() => { return newsGroup; });
             return newsGroup;
         }
 
-        public async Task InsertNewsGroup(NewsGroup newsGroup)
+        public async Task InsertNewsGroupAsync(NewsGroup newsGroup)
         {
             await Task.Run(() => { newsGroups.Add(newsGroup); });
         }
 
-        public async Task UpdateNewsGroup(NewsGroup newsGroup)
+        public async Task UpdateNewsGroupAsync(NewsGroup newsGroup)
         {
-            await DeleteNewsGroup(newsGroup);
-            await InsertNewsGroup(newsGroup);
+            await DeleteNewsGroupAsync(newsGroup);
+            await InsertNewsGroupAsync(newsGroup);
         }
 
-        public async Task DeleteNewsGroup(NewsGroup newsGroup)
+        public async Task DeleteNewsGroupAsync(NewsGroup newsGroup)
         {
             await Task.Run(() => newsGroups.Remove(newsGroup));
         }
 
-        public async Task DeleteNewsGroup(int groupId)
+        public async Task DeleteNewsGroupAsync(int groupId)
         {
-            var newsGroup = await GetNewsGroupById(groupId);
-            await DeleteNewsGroup(newsGroup);
+            var newsGroup = await GetNewsGroupByIdAsync(groupId);
+            await DeleteNewsGroupAsync(newsGroup);
         }
 
-        public async Task<bool> NewsGroupExists(int newsGroupId)
+        public async Task<bool> NewsGroupExistsAsync(int newsGroupId)
         {
             var newsGroupExist = newsGroups.Any(a => a.Id.Equals(newsGroupId));
             await Task.Run(() => { return newsGroupExist; });
             return newsGroupExist;
         }
 
-        public async Task<List<ShowGroupsViewModel>> GetListGroups()
+        public async Task<List<ShowGroupsViewModel>> GetListGroupsAsync()
         {
             var newsGroupList = newsGroups.Select(g => new ShowGroupsViewModel()
             {
@@ -89,7 +89,7 @@ namespace News.Services.Services
             return newsGroupList;
         }
 
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await Task.Run(() => { Thread.Sleep(1); });
         }

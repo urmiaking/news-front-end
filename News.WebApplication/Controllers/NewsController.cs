@@ -20,13 +20,13 @@ namespace News.WebApplication.Controllers
         [Route("News/{newsId}")]
         public async Task<IActionResult> ShowNews(int newsId)
         {
-            var news = await _newsRepository.GetNewsById(newsId);
+            var news = await _newsRepository.GetNewsByIdAsync(newsId);
             if (news == null)
             {
                 return NotFound();
             }
             news.VisitCount += 1;
-            await _newsRepository.UpdateNews(news);
+            await _newsRepository.UpdateNewsAsync(news);
             await _newsRepository.Save();
             return View(news);
         }
@@ -35,7 +35,7 @@ namespace News.WebApplication.Controllers
         public async Task<IActionResult> ShowNewsByGroupId(int groupId, string title)
         {
             ViewData["GroupTitle"] = title;
-            return View(await _newsRepository.GetNewsByGroupId(groupId));
+            return View(await _newsRepository.GetNewsByGroupIdAsync(groupId));
         }
 
         [Route("Search")]
@@ -44,7 +44,7 @@ namespace News.WebApplication.Controllers
             var result = new SearchViewModel()
             {
                 Query = q,
-                Result = await _newsRepository.Search(q)
+                Result = await _newsRepository.SearchAsync(q)
             };
             return View(result);
         }

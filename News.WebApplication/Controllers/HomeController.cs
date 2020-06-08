@@ -19,7 +19,7 @@ namespace News.WebApplication.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var indexViewModel = new IndexNewsViewModel(await _newsRepository.GetSliderNews(), await _newsRepository.GetLatestNews());
+            var indexViewModel = new IndexNewsViewModel(await _newsRepository.GetSliderNewsAsync(), await _newsRepository.GetLatestNewsAsync());
             return View(indexViewModel);
         }
     }
