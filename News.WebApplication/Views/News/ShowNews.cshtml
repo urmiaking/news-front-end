@@ -1,0 +1,85 @@
+﻿@model News
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+
+
+<ul class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">خانه </a></li>
+    <li class="breadcrumb-item"><a href="/">اخبار </a></li>
+    <li class="breadcrumb-item"><a href="/Group/@Model.NewsGroupId/@Model.NewsGroup.GroupTitle">@Model.NewsGroup.GroupTitle  </a></li>
+    <li class="breadcrumb-item active">@Model.Title </li>
+</ul>
+
+<section class="single-news border-radius">
+    <header><h2> @Model.Title </h2> <span> <i class="fa fa-calendar"></i>  انتشار : @Model.CreateDate.ToPersianDateString()</span></header>
+    <article>
+        <p>
+            @Model.ShortDescription
+        </p>
+
+        @if (Model.ImageName != null)
+        {
+            <div>
+                <img src="/img/news-images/@Model.ImageName" style="max-width: 600px;" alt="@Model.Title" class="thumbnail" />
+            </div>
+        }
+
+        <p>
+            @Model.Description
+        </p>
+    </article>
+</section>
+
+<div class="keywords border-radius">
+    @foreach (var item in Model.Tags.Split(','))
+    {
+        <a href="/Search?q=@item"> @item </a>
+    }
+</div>
+<br/>
+<section class="category-section border-radius">
+    <header><i class="fa fa-comment-o"></i> <h3> نظرات </h3></header>
+    <div class="container-fluid">
+        <div class="row p-5">
+            <div class="comment">
+                <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
+                <div class="comment-body">
+                    <div class="comment-text">
+                        <div class="comment-header">
+                            <a href="#" title="">نام کاربر </a><span>در 1 ساعت قبل</span>
+                        </div>
+                        سلام به تو دوست عزیز .
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row p-5">
+            <div class="comment">
+                <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
+                <div class="comment-body">
+                    <div class="comment-text">
+                        <div class="comment-header">
+                            <a href="#" title="">نام کاربر </a><span>در 1 ساعت قبل</span>
+                        </div>
+                        سلام به تو دوست عزیز .
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row p-5">
+            <div class="comment">
+                <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
+                <div class="comment-body">
+                    <div class="comment-text">
+                        <div class="comment-header">
+                            <a href="#" title="">نام کاربر </a><span>در 1 ساعت قبل</span>
+                        </div>
+                        سلام به تو دوست عزیز .
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -16,7 +16,7 @@
                 <div class="item">
                     <img src="/img/news-images/@item.ImageName">
                     <div class="left-side">
-                        <h2> <a asp-action="News" asp-route-id="@item.Id">@item.Title</a> </h2>
+                        <h2> <a asp-controller="News" asp-action="ShowNews" asp-route-newsId="@item.Id">@item.Title</a> </h2>
                         <p>
                             @item.ShortDescription
                         </p>
@@ -40,12 +40,12 @@
         {
             <li>
                 <img class="border-radius" src="/img/news-images/@item.ImageName">
-                <h2> <a asp-action="News" asp-route-id="@item.Id"> @item.Title </a></h2>
+                <h2> <a asp-controller="News" asp-action="ShowNews" asp-route-newsId="@item.Id"> @item.Title </a></h2>
                 <p>
                     @item.ShortDescription
                 </p>
-                <span class="date-publish"><i class="fa fa-calendar"></i> انتشار : @item.CreateDate.ToPersianDateTimeString() </span>
-                <a href="" class="more-link"><i class="icons icon-more"></i></a>
+                <span class="date-publish"><i class="fa fa-calendar"></i> انتشار : @item.CreateDate.ToPersianDateString() </span>
+                <a asp-controller="News" asp-action="ShowNews" asp-route-newsId="@item.Id" class="more-link"><i class="icons icon-more"></i></a>
             </li>
         }
     </ul>

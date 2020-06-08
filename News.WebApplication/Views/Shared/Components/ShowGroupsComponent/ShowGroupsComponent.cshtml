@@ -6,9 +6,10 @@
         @foreach (var item in Model)
         {
             <li>
-                <a asp-action="Group"
+                <a asp-controller="News"
+                   asp-action="ShowNewsByGroupId"
                    asp-route-groupId="@item.GroupId"
-                   asp-route-groupTitle="@item.GroupTitle">
+                   asp-route-title="@item.GroupTitle">
                     @item.GroupTitle
                     <span>@item.NewsCount</span>
                 </a>
