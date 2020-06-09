@@ -13,11 +13,7 @@ namespace News.Services.Repositories
 
         Task<User> SignInUserAsync(UserLoginViewModel user);
 
-        Task<bool> SendActivationLinkAsync(string userEmail);
-
-        Task<bool> SendResetPasswordLinkAsync(string userEmail);
-
-        Task<bool> CreateCookieAsync(UserLoginViewModel user);
+        Task<bool> CreateCookieAsync(UserLoginViewModel user, string role);
 
         Task<User> RegisterUserAsync(UserRegisterViewModel user);
 
@@ -35,5 +31,10 @@ namespace News.Services.Repositories
 
         Task SignOutUserAsync();
 
+        Task<bool> SaveChangesAsync();
+
+        Task<User> GetUserByActivationCode(string activationCode);
+
+        Task<User> GetUserByResetPasswordCode(string resetPasswordCode);
     }
 }

@@ -24,17 +24,14 @@ namespace News.Models.DomainModels
         [MaxLength(100, ErrorMessage = "لطفا حداکثر 100 کاراکتر وارد نمایید")]
         public string FullName { get; set; }
 
-        public UserTypes UserType { get; set; }
+        public string UserType { get; set; }
 
         public bool IsActive { get; set; }
 
         public string ResetPasswordCode { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
-    }
+        public string ActivationCode { get; set; }
 
-    public enum UserTypes
-    {
-        admin, user
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

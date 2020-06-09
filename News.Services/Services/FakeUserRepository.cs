@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Cryptography;
+using System.Threading;
 
 namespace News.Services.Services
 {
@@ -31,18 +32,18 @@ namespace News.Services.Services
                     Email = "a@b.com",
                     FullName = "علی صبوری",
                     Password = "db901737c41e490dec8bded913f112e5e7c720c3847558f0e5c65128bdb1b34c",
-                    UserType = UserTypes.user,
+                    UserType = "user",
                     IsActive = false
                 },
 
                 new User()
                 {
                     Id = 2,
-                    Email = "b@b.com",
+                    Email = "masoud.brilliant@hotmail.com",
                     FullName = "نگین صبوری",
                     Password = "db901737c41e490dec8bded913f112e5e7c720c3847558f0e5c65128bdb1b34c",
-                    UserType = UserTypes.user,
-                    IsActive = false
+                    UserType = "user",
+                    IsActive = true
                 },
 
                 new User()
@@ -51,7 +52,7 @@ namespace News.Services.Services
                     Email = "c@b.com",
                     FullName = "مسعود صبوری",
                     Password = "db901737c41e490dec8bded913f112e5e7c720c3847558f0e5c65128bdb1b34c",
-                    UserType = UserTypes.admin,
+                    UserType = "admin",
                     IsActive = true
                 },
 
@@ -61,7 +62,7 @@ namespace News.Services.Services
                     Email = "d@b.com",
                     FullName = "مهدی صبوری",
                     Password = "db901737c41e490dec8bded913f112e5e7c720c3847558f0e5c65128bdb1b34c",
-                    UserType = UserTypes.user,
+                    UserType = "admin",
                     IsActive = false
                 }
             };
@@ -75,12 +76,12 @@ namespace News.Services.Services
             });
         }
 
-        public async Task<bool> CreateCookieAsync(UserLoginViewModel user)
+        public async Task<bool> CreateCookieAsync(UserLoginViewModel user, string role)
         {
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Name, user.Email),
-                new Claim(ClaimTypes.Role, UserTypes.user.ToString()),
+                new Claim(ClaimTypes.Role, role),
             };
             var claimIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var authProperties = new AuthenticationProperties()
@@ -98,7 +99,6 @@ namespace News.Services.Services
         public async Task DeleteUserAsync(User user)
         {
             await Task.Run(() => { users.Remove(user); });
-
         }
 
         public async Task DeleteUserByIdAsync(int id)
@@ -154,27 +154,27 @@ namespace News.Services.Services
                 Password = await GetHashAsync(user.Password),
                 FullName = user.FullName,
                 Email = user.Email,
-                UserType = UserTypes.user
+                UserType = "user",
+                IsActive = false
             };
 
-            var linkSent = await SendActivationLinkAsync(user.Email);
-            if (linkSent)
-            {
-                users.Add(newUser);
-                return newUser;
-            }
-            return null;
+            users.Add(newUser);
+            return newUser;
         }
 
-        public async Task<bool> SendActivationLinkAsync(string userEmail)
+        public async Task<bool> SaveChangesAsync()
         {
             await Task.Run(() => { return true; });
             return true;
         }
 
-        public Task<bool> SendResetPasswordLinkAsync(string userEmail)
+        public async Task<User> GetUserByActivationCode(string activationCode)
         {
-            throw new NotImplementedException();
+            var user = users
+                .FirstOrDefault(a => 
+                    a.ActivationCode == activationCode);
+            await Task.Run(() => { return user; });
+            return user;
         }
 
         public async Task<User> SignInUserAsync(UserLoginViewModel user)
@@ -189,7 +189,16 @@ namespace News.Services.Services
             {
                 _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             });
-            
+
+        }
+
+        public async Task<User> GetUserByResetPasswordCode(string resetPasswordCode)
+        {
+            var user = users
+                .FirstOrDefault(a =>
+                    a.ResetPasswordCode == resetPasswordCode);
+            await Task.Run(() => { return user; });
+            return user;
         }
     }
 }
