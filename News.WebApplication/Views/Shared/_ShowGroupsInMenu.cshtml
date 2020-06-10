@@ -27,27 +27,17 @@
         <li class="pull-left">
             <b><a asp-controller="Account" asp-action="LogOut"><span class="fa fa-power-off"></span>&nbsp;خروج</a></b>
         </li>
-        @if (User.IsInRole("admin"))
-        {
-            <li class="pull-left">
-                <a asp-area="Admin" asp-action="Index" asp-controller="Home">ورود به صفحه مدیریت</a>
-            </li>
-        }
-        else
-        {
-            <li class="pull-left">
-                <a href="">مشاهده پروفایل </a>
-            </li>
-        }
-    }
+        <li class="pull-left">
+            <a asp-controller="Account" asp-action="EditProfile">مشاهده پروفایل </a>
+        </li>
     }
     else
     {
-    <li class="pull-left">
-        <a asp-controller="Account" asp-action="Login">ورود</a>
-    </li>
-    <li class="pull-left">
-        <a asp-controller="Account" asp-action="Register">ثبت نام</a>
-    </li>
+        <li class="pull-left">
+            <a asp-controller="Account" asp-action="Login">ورود</a>
+        </li>
+        <li class="pull-left">
+            <a asp-controller="Account" asp-action="Register">ثبت نام</a>
+        </li>
     }
 </ul>

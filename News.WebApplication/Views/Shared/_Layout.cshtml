@@ -72,6 +72,27 @@
     <div class="container margin-top-30">
         <div class="row">
             <aside class="col-md-4 col-sm-12 col-xs-12 pull-right">
+                <!-- admin panel -->
+                @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                {
+                    <section class="category-section border-radius">
+                        <header><i class="fa fa-newspaper-o"></i> <h3> مدیریت </h3></header>
+                        <ul>
+                            <li>
+                                <a asp-area="Admin" asp-controller="Home"
+                                   asp-action="NewsList">
+                                    مدیریت اخبار
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="Home"
+                                   asp-action="NewsGroupList">
+                                    مدیریت دسته بندی اخبار
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                }
                 @await Component.InvokeAsync("ShowGroupsComponent")
                 <!-- most views news -->
                 @await Component.InvokeAsync("ShowTopNewsComponent")

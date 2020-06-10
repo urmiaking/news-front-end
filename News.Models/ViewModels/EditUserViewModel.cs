@@ -5,8 +5,9 @@ using System.Text;
 
 namespace News.Models.ViewModels
 {
-    public class UserRegisterViewModel
+    public class EditUserViewModel
     {
+        public int Id { get; set; }
 
         [Display(Name = "نام کامل")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -19,15 +20,14 @@ namespace News.Models.ViewModels
         [EmailAddress(ErrorMessage = "آدرس ایمیل فرمت صحیحی ندارد")]
         public string Email { get; set; }
 
-        [Display(Name = "رمز عبور")]
+        [Display(Name = "رمز عبور جدید")]
         [DataType(DataType.Password)]
-        [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MinLength(6, ErrorMessage = "لطفا حداکثر ۶ کاراکتر وارد کنید")]
-        public string Password { get; set; }
+        public string NewPassword { get; set; }
 
-        [Display(Name = "تکرار رمز عبور")]
-        [Compare("Password", ErrorMessage = "رمز عبور مطابقت ندارد")]
+        [Display(Name = "تکرار رمز عبور جدید")]
         [DataType(DataType.Password)]
-        public string PasswordRepeat { get; set; }
+        [Compare("NewPassword", ErrorMessage = "رمز جدید با رمز وارد شده مطابقت ندارد")]
+        public string ConfirmPassword { get; set; }
     }
 }

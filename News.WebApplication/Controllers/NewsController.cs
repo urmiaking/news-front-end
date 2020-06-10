@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using News.Models.ViewModels;
+using News.Models.MetaModels;
 using News.Services.Repositories;
 
 namespace News.WebApplication.Controllers
@@ -32,10 +33,16 @@ namespace News.WebApplication.Controllers
         }
 
         [Route("Group/{groupId}/{title}")]
-        public async Task<IActionResult> ShowNewsByGroupId(int groupId, string title)
+        public async Task<IActionResult> ShowNewsByGroupId(int groupId, string title, int? page)
         {
+            var news = await _newsRepository.GetNewsByGroupIdAsync(groupId);
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
             ViewData["GroupTitle"] = title;
-            return View(await _newsRepository.GetNewsByGroupIdAsync(groupId));
+
+            return View(PaginatedList<Models.DomainModels.News>.Create(news, pageNumber, pageSize));
         }
 
         [Route("Search")]
@@ -47,6 +54,16 @@ namespace News.WebApplication.Controllers
                 Result = await _newsRepository.SearchAsync(q)
             };
             return View(result);
+        }
+
+        public async Task<IActionResult> Archive(int? page)
+        {
+            var news = await _newsRepository.GetAllNewsAsync();
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+
+            return View(PaginatedList<Models.DomainModels.News>.Create(news, pageNumber, pageSize));
         }
     }
 }

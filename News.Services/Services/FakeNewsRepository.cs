@@ -130,8 +130,8 @@ namespace News.Services.Services
 
         public async Task<IEnumerable<Models.DomainModels.News>> GetAllNewsAsync()
         {
-            await Task.Run(() => { return news; });
-            return news;
+            await Task.Run(() => { return news.OrderByDescending(a => a.CreateDate); });
+            return news.OrderByDescending(a => a.CreateDate); ;
         }
 
         public async Task<IEnumerable<Models.DomainModels.News>> GetTopNewsAsync(int take = 4)

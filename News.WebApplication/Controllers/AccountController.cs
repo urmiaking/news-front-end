@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using News.Models.DomainModels;
 using News.Models.ViewModels;
@@ -200,11 +203,83 @@ namespace News.WebApplication.Controllers
 
         #endregion
 
+        #region LogOut
+
         public async Task<IActionResult> LogOut()
         {
             await _userRepository.SignOutUserAsync();
             TempData["Success"] = $"خروج موفقیت آمیز بود";
             return RedirectToAction("Index", "Home");
         }
+
+        #endregion
+
+        #region EditProfile
+
+        [Authorize]
+        public async Task<IActionResult> EditProfile()
+        {
+            var user = await _userRepository.GetUserByEmailAsync(User.Identity.Name);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            var editUserViewModel = new EditUserViewModel()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                FullName = user.FullName
+            };
+
+            return View(editUserViewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(EditUserViewModel userModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(userModel);
+            }
+
+            var user = await _userRepository.GetUserByIdAsync(userModel.Id);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+
+            if (!string.IsNullOrEmpty(userModel.NewPassword))
+            {
+                user.Password = await _userRepository.GetHashAsync(userModel.NewPassword);
+            }
+
+            if (!userModel.Email.Equals(user.Email))
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                var userLoginViewModel = new UserLoginViewModel()
+                {
+                    Email = userModel.Email,
+                    RememberMe = false
+                };
+
+                await _userRepository.CreateCookieAsync(userLoginViewModel, user.UserType);
+            }
+
+            user.Email = userModel.Email;
+            user.FullName = userModel.FullName;
+
+            await _userRepository.EditUserAsync(user);
+            await _userRepository.SaveChangesAsync();
+
+            TempData["Success"] = "اطلاعات شما با موفقیت ویرایش شد";
+            return View(userModel);
+
+        }
+
+        #endregion
     }
 }

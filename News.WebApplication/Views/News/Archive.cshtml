@@ -1,10 +1,10 @@
-﻿
-@model PaginatedList<News>
+﻿@model PaginatedList<News>
 @{
-    ViewData["Title"] = " خبر های گروه " + ViewData["GroupTitle"];
+    ViewData["Title"] = "آرشیو اخبار";
 }
+
 <section class="last-news-section border-radius">
-    <header><i class="icons icon-doc-2"></i>  <h3>آخرین اخبار ارسالی گروه @ViewData["GroupTitle"]</h3> </header>
+    <header><i class="icons icon-doc-2"></i>  <h3>آخرین آخبار ارسالی</h3> </header>
     <ul>
         @foreach (var item in Model)
         {
@@ -20,6 +20,7 @@
         }
     </ul>
 </section>
+
 @{
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
