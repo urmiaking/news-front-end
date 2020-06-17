@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using News.Models.DomainModels;
 
 namespace News.Models.ViewModels
 {
@@ -24,5 +25,7 @@ namespace News.Models.ViewModels
 
         [Display(Name = "تعداد بازدید")]
         public int VisitCount { get; set; }
+
+        public NewsGroup NewsGroup { get; set; }
     }
 }

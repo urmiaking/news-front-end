@@ -31,8 +31,6 @@ namespace News.Services.Repositories
 
         Task SignOutUserAsync();
 
-        Task<bool> SaveChangesAsync();
-
         Task<User> GetUserByActivationCode(string activationCode);
 
         Task<User> GetUserByResetPasswordCode(string resetPasswordCode);

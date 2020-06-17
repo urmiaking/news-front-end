@@ -206,10 +206,5 @@ namespace News.Services.Services
             await Task.Run(() => { return newsExist; });
             return newsExist;
         }
-
-        public async Task Save()
-        {
-            await Task.Run(() => { Thread.Sleep(1); });
-        }
     }
 }

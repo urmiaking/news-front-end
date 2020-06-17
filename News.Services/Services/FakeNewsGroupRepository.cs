@@ -48,6 +48,13 @@ namespace News.Services.Services
             return newsGroup;
         }
 
+        public async Task<NewsGroup> GetNewsGroupByNameAsync(string groupName)
+        {
+            var newsGroup = newsGroups.FirstOrDefault(a => a.GroupTitle.Equals(groupName));
+            await Task.Run(() => { return newsGroup; });
+            return newsGroup;
+        }
+
         public async Task InsertNewsGroupAsync(NewsGroup newsGroup)
         {
             await Task.Run(() => { newsGroups.Add(newsGroup); });
@@ -87,11 +94,6 @@ namespace News.Services.Services
             }).ToList();
             await Task.Run(() => { return newsGroupList; });
             return newsGroupList;
-        }
-
-        public async Task SaveAsync()
-        {
-            await Task.Run(() => { Thread.Sleep(1); });
         }
     }
 }

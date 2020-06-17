@@ -31,7 +31,5 @@ namespace News.Services.Repositories
         Task DeleteNewsAsync(int newsId);
 
         Task<bool> NewsExistsAsync(int newsId);
-
-        Task Save();
     }
 }

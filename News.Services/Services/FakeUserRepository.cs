@@ -162,12 +162,6 @@ namespace News.Services.Services
             return newUser;
         }
 
-        public async Task<bool> SaveChangesAsync()
-        {
-            await Task.Run(() => { return true; });
-            return true;
-        }
-
         public async Task<User> GetUserByActivationCode(string activationCode)
         {
             var user = users

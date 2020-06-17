@@ -1149,3 +1149,7 @@ footer {
     .comment > .comment {
         margin-left: 32px !important;
     }
+
+.admin-news-img {
+    max-width: 120px;
+}

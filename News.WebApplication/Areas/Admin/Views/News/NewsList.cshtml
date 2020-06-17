@@ -1,0 +1,77 @@
+﻿@model PaginatedList<NewsListViewModel>
+
+@{
+    ViewData["Title"] = "مدیریت اخبار";
+}
+
+
+s<section class="category-section border-radius">
+    <header><i class="fa fa-newspaper-o"></i>  <h3>مدیریت اخبار</h3> </header>
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th class="text-center">
+                    عکس خبر
+                </th>
+                <th class="text-center">
+                    عنوان
+                </th>
+                <th class="text-center">
+                    گروه
+                </th>
+                <th class="text-center">
+                    تاریخ انتشار
+                </th>
+                <th class="text-center">
+                    بازدید
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="/img/news-images/@item.ImageName" class="admin-news-img" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NewsGroup.GroupTitle)
+                    </td>
+                    <td>
+                        @item.CreateDate.ToPersianDateString()
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.VisitCount)
+                    </td>
+                    <td>
+                        <a asp-action="" asp-controller="" class="btn btn-warning">ویرایش</a> |
+                        <a asp-action="" asp-controller="" class="btn btn-primary">مشاهده</a> |
+                        <a asp-action="" asp-controller="" class="btn btn-danger">حذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+
+    <div class="text-center">
+        <a asp-area="Admin" asp-controller="News" asp-action="NewsList"
+           asp-route-page="@(Model.PageIndex - 1)"
+           class="btn btn-default @prevDisabled">
+            قبلی
+        </a>
+        <a asp-area="Admin" asp-controller="News" asp-action="NewsList"
+           asp-route-page="@(Model.PageIndex + 1)"
+           class="btn btn-default @nextDisabled">
+            بعدی
+        </a>
+    </div>
+}

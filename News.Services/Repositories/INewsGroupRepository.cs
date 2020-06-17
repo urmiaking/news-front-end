@@ -11,12 +11,12 @@ namespace News.Services.Repositories
     {
         Task<List<NewsGroup>> GetAllNewsGroupsAsync();
         Task<NewsGroup> GetNewsGroupByIdAsync(int groupId);
+        Task<NewsGroup> GetNewsGroupByNameAsync(string groupName);
         Task InsertNewsGroupAsync(NewsGroup newsGroup);
         Task UpdateNewsGroupAsync(NewsGroup newsGroup);
         Task DeleteNewsGroupAsync(NewsGroup newsGroup);
         Task DeleteNewsGroupAsync(int groupId);
         Task<bool> NewsGroupExistsAsync(int newsGroupId);
         Task<List<ShowGroupsViewModel>> GetListGroupsAsync();
-        Task SaveAsync();
     }
 }

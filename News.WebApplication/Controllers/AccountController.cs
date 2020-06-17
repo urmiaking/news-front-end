@@ -76,7 +76,6 @@ namespace News.WebApplication.Controllers
             user.IsActive = true;
             user.ActivationCode = null;
             await _userRepository.EditUserAsync(user);
-            await _userRepository.SaveChangesAsync();
 
             var userViewModel = new UserLoginViewModel()
             {
@@ -191,7 +190,6 @@ namespace News.WebApplication.Controllers
                 user.Password = hashedPassword;
                 user.ResetPasswordCode = null;
                 await _userRepository.EditUserAsync(user);
-                await _userRepository.SaveChangesAsync();
 
                 TempData["Success"] = "رمز عبور شما با موفقیت تغییر یافت";
                 return RedirectToAction("Login");
@@ -273,7 +271,6 @@ namespace News.WebApplication.Controllers
             user.FullName = userModel.FullName;
 
             await _userRepository.EditUserAsync(user);
-            await _userRepository.SaveChangesAsync();
 
             TempData["Success"] = "اطلاعات شما با موفقیت ویرایش شد";
             return View(userModel);

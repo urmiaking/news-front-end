@@ -81,7 +81,6 @@ namespace News.Services.Services
 
         user.ActivationCode = activationCode;
         await _userRepository.EditUserAsync(user);
-        await _userRepository.SaveChangesAsync();
 
         const string subject = "فعال سازی حساب کاربری | سایت خبری خاص";
         var body = "سلام " + user.FullName + ", <br/> لطفا برای فعالسازی حساب کاربری خود در وب سایت خبری خاص، روی لینک زیر کلیک کنید. " +
@@ -109,7 +108,6 @@ namespace News.Services.Services
             $"/Account/ResetPassword/{resetCode}");
 
         user.ResetPasswordCode = resetCode;
-        await _userRepository.SaveChangesAsync();
 
         const string subject = "درخواست فراموشی رمز عبور | سایت خبری خاص";
         var body = "سلام " + user.FullName + ", <br/> شما اخیرا درخواست تغییر رمز عبور خود را در صفحه ورود به وبسایت خبری خاص نموده اید. لطفا روی لینک زیر کلیک کنید و رمز جدید خود را وارد نمایید. " +

@@ -18,6 +18,7 @@
     <link href="/plugins/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
     <script src="/js/jquery.min.js"></script>
     <script src="/js/modernizr.js"></script>
+    @RenderSection("Head", required: false)
 </head>
 <body>
     <!-- Top Menu -->
@@ -79,15 +80,23 @@
                         <header><i class="fa fa-newspaper-o"></i> <h3> مدیریت </h3></header>
                         <ul>
                             <li>
-                                <a asp-area="Admin" asp-controller="Home"
-                                   asp-action="NewsList">
+                                <a asp-area="Admin" asp-controller="News" asp-action="NewsList">
                                     مدیریت اخبار
                                 </a>
                             </li>
                             <li>
-                                <a asp-area="Admin" asp-controller="Home"
-                                   asp-action="NewsGroupList">
+                                <a asp-area="Admin" asp-controller="News" asp-action="Create">
+                                    ایجاد خبر جدید
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="NewsGroup" asp-action="NewsGroupList">
                                     مدیریت دسته بندی اخبار
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="Admin" asp-controller="NewsGroup" asp-action="Create">
+                                    ایجاد دسته بندی جدید
                                 </a>
                             </li>
                         </ul>

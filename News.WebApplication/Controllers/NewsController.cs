@@ -28,7 +28,6 @@ namespace News.WebApplication.Controllers
             }
             news.VisitCount += 1;
             await _newsRepository.UpdateNewsAsync(news);
-            await _newsRepository.Save();
             return View(news);
         }
 
