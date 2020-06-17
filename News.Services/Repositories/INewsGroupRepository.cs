@@ -14,8 +14,8 @@ namespace News.Services.Repositories
         Task<NewsGroup> GetNewsGroupByNameAsync(string groupName);
         Task InsertNewsGroupAsync(NewsGroup newsGroup);
         Task UpdateNewsGroupAsync(NewsGroup newsGroup);
-        Task DeleteNewsGroupAsync(NewsGroup newsGroup);
-        Task DeleteNewsGroupAsync(int groupId);
+        Task<bool> DeleteNewsGroupAsync(NewsGroup newsGroup);
+        Task<bool> DeleteNewsGroupAsync(int groupId);
         Task<bool> NewsGroupExistsAsync(int newsGroupId);
         Task<List<ShowGroupsViewModel>> GetListGroupsAsync();
     }

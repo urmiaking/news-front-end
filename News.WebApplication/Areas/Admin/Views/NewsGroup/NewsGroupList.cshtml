@@ -1,0 +1,106 @@
+﻿@model IEnumerable<NewsGroup>
+
+@{
+    ViewData["Title"] = "لیست دسته بندی اخبار";
+    int i = 1;
+}
+
+@section Head
+{
+    <!-- Sweet Alert css -->
+    <link href="/plugins/bootstrap-sweetalert/sweet-alert.css" rel="stylesheet" type="text/css" />
+    <!-- Sweet Alert js -->
+    <script src="/plugins/bootstrap-sweetalert/sweet-alert.min.js"></script>
+}
+
+<section class="category-section border-radius">
+    <header><i class="fa fa-group"></i>  <h3>@ViewData["Title"]</h3> </header>
+    <table class="table text-center">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.GroupTitle)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                var deleteBtnId = "btn-delete-" + i;
+                <tr id="row-@i">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GroupTitle)
+                    </td>
+                    <td>
+                        <a asp-area="Admin" asp-action="Edit" asp-controller="NewsGroup"
+                           asp-route-id="@item.Id" class="btn btn-warning">ویرایش</a> |
+                        <a href="#" class="btn btn-danger" id="@deleteBtnId">حذف</a>
+                    </td>
+                </tr>
+                <script>
+                    $('#@deleteBtnId').click(function() {
+                        swal({
+                                title: "",
+                                text: "مطمئنی ؟؟",
+                                type: "error",
+                                showCancelButton: true,
+                                confirmButtonClass: 'btn-danger waves-effect waves-light',
+                                confirmButtonText: 'بله!',
+                                closeOnConfirm: false
+                            },
+                            function(isConfirm) {
+                                if (isConfirm) {
+                                    $.ajax({
+                                        url: "/Admin/NewsGroup/Delete/",
+                                        type: "POST",
+                                        data: {
+                                            id: @item.Id
+                                        },
+                                        dataType: "html",
+                                        success: function() {
+                                            swal("",
+                                                "دسته بندی مورد نظر با موفقت حذف شد!",
+                                                "success");
+                                            $("#row-@i").hide("slow",
+                                                function() {
+                                                    $("#row-@i").remove();
+                                                    location.reload();
+                                                });
+                                        },
+                                        statusCode: {
+                                            404: function () {
+                                                swal({
+                                                        title: "دسترسی غیر مجاز!",
+                                                        text: "لطفا از دستکاری داده های ارسالی اجتناب کنید!",
+                                                        type: "error",
+                                                        showCancelButton: false,
+                                                        confirmButtonClass: 'btn-danger waves-effect waves-light',
+                                                        confirmButtonText: 'باشه ببخشید!',
+                                                        closeOnConfirm: true
+                                                    }
+                                                );
+                                            },
+                                            403: function () {
+                                                swal({
+                                                    title: "",
+                                                    text: "امکان حذف دسته بندی خبری که شامل اخبار است وجود ندارد!",
+                                                    type: "error",
+                                                    showCancelButton: false,
+                                                    confirmButtonClass: 'btn-danger waves-effect waves-light',
+                                                    confirmButtonText: 'باشه ببخشید!',
+                                                    closeOnConfirm: true
+                                                }
+                                                );
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                    });
+                </script>
+                i++;
+            }
+        </tbody>
+    </table>
+</section>

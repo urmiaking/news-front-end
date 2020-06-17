@@ -32,20 +32,6 @@ namespace News.Services.Services
             }
             dbNews.Comments.Add(comment);
             await _newsRepository.UpdateNewsAsync(dbNews);
-
-            
-        }
-
-        public async Task<IEnumerable<Comment>> GetAllCommentsAsync()
-        {
-            await Task.Run(() => { return comments; });
-            return comments;
-        }
-
-        public async Task<Comment> GetCommentByIdAsync(int id)
-        {
-            await Task.Run(() => { return comments.FirstOrDefault(a => a.Id.Equals(id)); });
-            return comments.FirstOrDefault(a => a.Id.Equals(id));
         }
     }
 }

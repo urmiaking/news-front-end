@@ -1,0 +1,35 @@
+﻿@model NewsGroup
+
+@{
+    ViewData["Title"] = "ویرایش دسته بندی خبر";
+}
+
+<section class="category-section border-radius">
+    <header><i class="fa fa-edit"></i> <h3> ویرایش دسته بندی </h3></header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <form asp-action="Edit">
+                    <br />
+                    <input type="hidden" asp-for="Id" class="form-control" />
+                    <div class="form-group">
+                        <label asp-for="GroupTitle" class="control-label"></label>
+                        <input asp-for="GroupTitle" class="form-control" />
+                        <span asp-validation-for="GroupTitle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="ذخیره" class="btn btn-block btn-success" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="text-center">
+    <a asp-area="Admin" asp-controller="NewsGroup" asp-action="NewsGroupList">بازگشت</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

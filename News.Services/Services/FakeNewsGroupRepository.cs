@@ -57,24 +57,36 @@ namespace News.Services.Services
 
         public async Task InsertNewsGroupAsync(NewsGroup newsGroup)
         {
+            var rnd = new Random();
+            newsGroup.Id = rnd.Next();
             await Task.Run(() => { newsGroups.Add(newsGroup); });
         }
 
         public async Task UpdateNewsGroupAsync(NewsGroup newsGroup)
         {
-            await DeleteNewsGroupAsync(newsGroup);
-            await InsertNewsGroupAsync(newsGroup);
+            var myNewsGroup = await GetNewsGroupByIdAsync(newsGroup.Id);
+            myNewsGroup.GroupTitle = newsGroup.GroupTitle;
         }
 
-        public async Task DeleteNewsGroupAsync(NewsGroup newsGroup)
+        public async Task<bool> DeleteNewsGroupAsync(NewsGroup newsGroup)
         {
-            await Task.Run(() => newsGroups.Remove(newsGroup));
+            if (newsGroup.News == null)
+            {
+                await Task.Run(() => newsGroups.Remove(newsGroup));
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public async Task DeleteNewsGroupAsync(int groupId)
+        public async Task<bool> DeleteNewsGroupAsync(int groupId)
         {
             var newsGroup = await GetNewsGroupByIdAsync(groupId);
-            await DeleteNewsGroupAsync(newsGroup);
+            var result = await DeleteNewsGroupAsync(newsGroup);
+            return result;
+
         }
 
         public async Task<bool> NewsGroupExistsAsync(int newsGroupId)

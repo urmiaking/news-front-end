@@ -9,7 +9,5 @@ namespace News.Services.Repositories
     public interface ICommentRepository
     {
         Task AddCommentForNewsAsync(Comment comment, User user, Models.DomainModels.News news);
-        Task<IEnumerable<Comment>> GetAllCommentsAsync();
-        Task<Comment> GetCommentByIdAsync(int id);
     }
 }
