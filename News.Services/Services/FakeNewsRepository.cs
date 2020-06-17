@@ -181,33 +181,22 @@ namespace News.Services.Services
 
         public async Task InsertNewsAsync(Models.DomainModels.News addedNews)
         {
-            var rnd = new Random();
-            addedNews.Id = rnd.Next();
             await Task.Run(() => { news.Add(addedNews); });
         }
 
         public async Task UpdateNewsAsync(Models.DomainModels.News incomingNews)
         {
-            await DeleteNewsAsync(incomingNews);
+            await DeleteNewsAsync(incomingNews.Id);
             await InsertNewsAsync(incomingNews);
         }
 
         public async Task DeleteNewsAsync(Models.DomainModels.News incomingNews)
         {
+            bool result;
             await Task.Run(() =>
             {
-                var oldImage = incomingNews.ImageName;
-                string oldImagePath = Path.Combine(Directory.GetCurrentDirectory(),
-                    "wwwroot/img/news-images/", oldImage);
-                if (File.Exists(oldImagePath))
-                {
-                    File.Delete(oldImagePath);
-                }
-                else
-                {
-                    //_logger.LogError($"The image path cannot be found. Path = {oldImagePath}");
-                }
-                return news.Remove(incomingNews);
+                result = news.Remove(incomingNews);
+                return result;
             });
         }
 

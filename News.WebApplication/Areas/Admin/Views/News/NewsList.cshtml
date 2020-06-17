@@ -57,7 +57,8 @@
                         @Html.DisplayFor(modelItem => item.VisitCount)
                     </td>
                     <td>
-                        <a asp-action="" asp-controller="" class="btn btn-warning">ویرایش</a> |
+                        <a asp-area="Admin" asp-action="Edit" asp-controller="News"
+                           asp-route-id="@item.Id" class="btn btn-warning">ویرایش</a> |
                         <a asp-area="" asp-action="ShowNews" asp-controller="News"
                            asp-route-newsId="@item.Id" class="btn btn-primary">مشاهده</a> |
                         <a href="#" class="btn btn-danger" id="@deleteBtnId">حذف</a>

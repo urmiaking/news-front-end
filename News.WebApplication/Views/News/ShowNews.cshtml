@@ -1,4 +1,5 @@
-﻿@model News
+﻿@using News.Utilities.DateTimeUtility
+@model News
 @{
     ViewData["Title"] = Model.Title;
 }
@@ -38,48 +39,65 @@
         <a href="/Search?q=@item"> @item </a>
     }
 </div>
-<br/>
+<br />
 <section class="category-section border-radius">
     <header><i class="fa fa-comment-o"></i> <h3> نظرات </h3></header>
     <div class="container-fluid">
-        <div class="row p-5">
-            <div class="comment">
-                <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
-                <div class="comment-body">
-                    <div class="comment-text">
-                        <div class="comment-header">
-                            <a href="#" title="">نام کاربر </a><span>در 1 ساعت قبل</span>
+        @if (Model.Comments != null)
+        {
+            foreach (var comment in Model.Comments)
+            {
+                <div class="row p-5">
+                    <div class="comment">
+                        <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
+                        <div class="comment-body">
+                            <div class="comment-text">
+                                <div class="comment-header">
+                                    <a href="#" title="">@comment.User.FullName </a><span>&nbsp; @comment.DateTime.ElapsedTime()</span>
+                                </div>
+                                @comment.Content
+                            </div>
                         </div>
-                        سلام به تو دوست عزیز .
                     </div>
                 </div>
+            }
+        }
+        else
+        {
+            <div class="text-center p-5">
+                هیچ نظری وجود ندارد.
             </div>
-        </div>
-        <div class="row p-5">
-            <div class="comment">
-                <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
-                <div class="comment-body">
-                    <div class="comment-text">
-                        <div class="comment-header">
-                            <a href="#" title="">نام کاربر </a><span>در 1 ساعت قبل</span>
-                        </div>
-                        سلام به تو دوست عزیز .
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row p-5">
-            <div class="comment">
-                <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
-                <div class="comment-body">
-                    <div class="comment-text">
-                        <div class="comment-header">
-                            <a href="#" title="">نام کاربر </a><span>در 1 ساعت قبل</span>
-                        </div>
-                        سلام به تو دوست عزیز .
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </section>
+<div class="text-center">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="m-t-30 text-center">
+            برای ثبت نظر باید <a style="color:#009dad" asp-controller="Account" asp-action="Login">وارد</a> شوید
+        </div>
+    }
+    else
+    {
+        <br />
+        <form method="post" class="card-box" asp-controller="Comment" asp-action="AddComment">
+            <input type="hidden" name="userEmail" value="@User.Identity.Name" />
+            <input type="hidden" name="newsId" value="@Model.Id" />
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="comment-content" class="control-label pull-right">
+                        نظر خود را بنویسید
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="comment-content" name="content" required=""/>
+                </div>
+                <div class="col-md-2 p-t-10 text-left">
+                    <input type="submit" class="btn btn-sm btn-primary waves-effect waves-light" value="ارسال"/>
+                </div>
+            </div>
+        </form>
+    }
+</div>

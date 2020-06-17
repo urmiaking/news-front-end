@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using News.Models.MetaModels;
 using News.Models.ViewModels;
 using News.Services.Repositories;
@@ -49,7 +51,7 @@ namespace News.WebApplication.Areas.Admin.Controllers
             return View(PaginatedList<NewsListViewModel>.Create(newsModel, pageNumber, pageSize));
         }
 
-        #region AddNews
+        #region Create
 
         public IActionResult Create()
         {
@@ -85,6 +87,8 @@ namespace News.WebApplication.Areas.Admin.Controllers
                 return View(news);
             }
 
+            var rnd = new Random();
+            news.Id = rnd.Next();
             news.CreateDate = DateTime.Now;
             news.ImageName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
             news.VisitCount = 0;
@@ -114,7 +118,7 @@ namespace News.WebApplication.Areas.Admin.Controllers
 
         #endregion
 
-        #region DeleteNews
+        #region Delete
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id = 0)
@@ -131,6 +135,18 @@ namespace News.WebApplication.Areas.Admin.Controllers
                 return StatusCode(404);
             }
 
+            var oldImage = news.ImageName;
+            string oldImagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                "wwwroot/img/news-images/", oldImage);
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+            else
+            {
+                //_logger.LogError($"The image path cannot be found. Path = {oldImagePath}");
+            }
+
             await _newsRepository.DeleteNewsAsync(news);
 
             return StatusCode(200);
@@ -138,5 +154,84 @@ namespace News.WebApplication.Areas.Admin.Controllers
 
         #endregion
 
+        #region Edit
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var news = await _newsRepository.GetNewsByIdAsync(id);
+
+            if (news == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.GroupId = new SelectList(await _newsGroupRepository.GetAllNewsGroupsAsync(), "Id", "GroupTitle", news.NewsGroupId);
+
+            return View(news);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Models.DomainModels.News news, IFormFile imageFile)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.GroupId = new SelectList(await _newsGroupRepository.GetAllNewsGroupsAsync(), "Id", "GroupTitle", news.NewsGroupId);
+                return View(news);
+            }
+
+            try
+            {
+                if (imageFile != null)
+                {
+                    var oldImage = news.ImageName;
+                    string oldImagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                        "wwwroot/img/news-images/", oldImage);
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                    else
+                    {
+                        //_logger.LogError($"The image path cannot be found. Path = {oldImagePath}");
+                    }
+
+                    news.ImageName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+
+                    string savePath = Path.Combine(
+                        Directory.GetCurrentDirectory(), "wwwroot/img/news-images", news.ImageName
+                    );
+                    using (var stream = new FileStream(savePath, FileMode.Create))
+                    {
+                        imageFile.CopyTo(stream);
+                    }
+                }
+
+                news.NewsGroup = await _newsGroupRepository.GetNewsGroupByIdAsync(news.NewsGroupId);
+                await _newsRepository.UpdateNewsAsync(news);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!(await NewsExists(news.Id)))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            TempData["Success"] = "خبر با موفقیت ثبت شد";
+
+            return RedirectToAction("NewsList", "News");
+        }
+
+        private async Task<bool> NewsExists(int id)
+        {
+            return await _newsRepository.NewsExistsAsync(id);
+        }
+
+        #endregion
     }
 }

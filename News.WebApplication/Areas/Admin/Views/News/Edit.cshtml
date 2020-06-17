@@ -1,9 +1,7 @@
 ﻿@model News
-@inject INewsGroupRepository NewsGroupRepository
+
 @{
-    ViewData["Title"] = "ایجاد خبر جدید";
-    var groupList = await NewsGroupRepository.GetAllNewsGroupsAsync();
-    var groupListNames = groupList.Select(a => a.GroupTitle).ToList();
+    ViewData["Title"] = "ویرایش خبر " + Model.Title;
 }
 
 @section Head
@@ -13,20 +11,24 @@
 }
 
 <section class="category-section border-radius">
-    <header><i class="fa fa-plus-square-o"></i> <h3> ایجاد خبر جدید </h3></header>
+    <header><i class="fa fa-edit"></i> <h3> ویرایش خبر </h3></header>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <form asp-action="Create" enctype="multipart/form-data">
-                    <br />
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <br/>
+                    <input type="hidden" asp-for="Id"/>
+                    <input type="hidden" asp-for="VisitCount"/>
+                    <input type="hidden" asp-for="CreateDate"/>
+                    <input type="hidden" asp-for="ImageName"/>
                     <div class="form-group">
                         <label asp-for="Title" class="control-label"></label>
-                        <input asp-for="Title" class="form-control" />
+                        <input asp-for="Title" class="form-control"/>
                         <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ShortDescription" class="control-label"></label>
-                        <input asp-for="ShortDescription" class="form-control" />
+                        <input asp-for="ShortDescription" class="form-control"/>
                         <span asp-validation-for="ShortDescription" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -37,31 +39,29 @@
                     <div class="form-group">
                         <label asp-for="ImageName" class="control-label"></label>
                         <input type="file" accept="image/x-png,image/gif,image/jpeg"
-                               class="form-control dropify" name="imageFile" />
+                               class="form-control dropify" name="imageFile"
+                               data-default-file="/../../img/news-images/@Model.ImageName"/>
                         <span asp-validation-for="ImageName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="NewsGroup.GroupTitle" class="control-label"></label>
-                        <select asp-items="new SelectList(groupListNames)"
-                                class="form-control" required="" asp-for="NewsGroup.GroupTitle">
-                            <option selected="">انتخاب کنید</option>
-                        </select>
-                        <span asp-validation-for="NewsGroup.GroupTitle" class="text-danger"></span>
+                        <select asp-for="NewsGroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+                        <span asp-validation-for="NewsGroupId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="Tags" class="control-label"></label>
-                        <input asp-for="Tags" class="form-control" />
+                        <input asp-for="Tags" class="form-control"/>
                         <span asp-validation-for="Tags" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
                             <label>
-                                <input asp-for="ShowInSlider" /> @Html.DisplayNameFor(model => model.ShowInSlider)
+                                <input asp-for="ShowInSlider"/> @Html.DisplayNameFor(model => model.ShowInSlider)
                             </label>
                         </div>
                     </div>
                     <div class="form-group text-center">
-                        <input type="submit" value="ذخیره" class="btn btn-block btn-success" />
+                        <input type="submit" value="ذخیره" class="btn btn-block btn-success"/>
                     </div>
                 </form>
             </div>
