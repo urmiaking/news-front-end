@@ -49,6 +49,8 @@ namespace News.WebApplication.Areas.Admin.Controllers
             return View(PaginatedList<NewsListViewModel>.Create(newsModel, pageNumber, pageSize));
         }
 
+        #region AddNews
+
         public IActionResult Create()
         {
             return View();
@@ -109,5 +111,32 @@ namespace News.WebApplication.Areas.Admin.Controllers
             TempData["Success"] = "خبر با موفقیت افزوده شد";
             return RedirectToAction("NewsList", "News");
         }
+
+        #endregion
+
+        #region DeleteNews
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id = 0)
+        {
+            if (id == 0)
+            {
+                return StatusCode(404);
+            }
+
+            var news = await _newsRepository.GetNewsByIdAsync(id);
+
+            if (news == null)
+            {
+                return StatusCode(404);
+            }
+
+            await _newsRepository.DeleteNewsAsync(news);
+
+            return StatusCode(200);
+        }
+
+        #endregion
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -180,6 +181,8 @@ namespace News.Services.Services
 
         public async Task InsertNewsAsync(Models.DomainModels.News addedNews)
         {
+            var rnd = new Random();
+            addedNews.Id = rnd.Next();
             await Task.Run(() => { news.Add(addedNews); });
         }
 
@@ -191,7 +194,21 @@ namespace News.Services.Services
 
         public async Task DeleteNewsAsync(Models.DomainModels.News incomingNews)
         {
-            await Task.Run(() => news.Remove(incomingNews));
+            await Task.Run(() =>
+            {
+                var oldImage = incomingNews.ImageName;
+                string oldImagePath = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot/img/news-images/", oldImage);
+                if (File.Exists(oldImagePath))
+                {
+                    File.Delete(oldImagePath);
+                }
+                else
+                {
+                    //_logger.LogError($"The image path cannot be found. Path = {oldImagePath}");
+                }
+                return news.Remove(incomingNews);
+            });
         }
 
         public async Task DeleteNewsAsync(int newsId)
