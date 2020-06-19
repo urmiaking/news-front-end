@@ -56,6 +56,12 @@ namespace News.Services.Services
         {
             var password = await GetHashAsync(user.Password);
             var dbUser = await GetUserByEmailAsync(user.Email);
+
+            if (dbUser.Id == 0)
+            {
+                return null;
+            }
+
             if (dbUser.Password.Equals(password))
             {
                 return dbUser;

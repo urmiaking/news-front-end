@@ -19,9 +19,9 @@ namespace News.Services.Services
             comments = new List<Comment>();
         }
 
-        public async Task AddCommentForNewsAsync(Comment comment, User user, News.Models.DomainModels.News news)
+        public async Task AddCommentForNewsAsync(Comment comment, User user, Models.DomainModels.News news)
         {
-            comment.User = user;
+            comment.UserId = user.Id;
             comment.News = news;
             comments.Add(comment);
 

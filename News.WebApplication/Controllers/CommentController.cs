@@ -49,7 +49,8 @@ namespace News.WebApplication.Controllers
                 DateTime = DateTime.Now,
                 IsConfirmed = true,
                 News = news,
-                User = user
+                NewsId = newsId,
+                UserId = user.Id
             };
             await _commentRepository.AddCommentForNewsAsync(comment, user, news);
 

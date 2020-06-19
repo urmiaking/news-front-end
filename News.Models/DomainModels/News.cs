@@ -7,6 +7,10 @@ namespace News.Models.DomainModels
 {
     public class News
     {
+        public News()
+        {
+
+        }
 
         public int Id { get; set; }
 
@@ -38,7 +42,7 @@ namespace News.Models.DomainModels
         [Display(Name = "نمایش در اسلایدر")]
         public bool ShowInSlider { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
+        public virtual List<Comment> Comments { get; set; }
         public int NewsGroupId { get; set; }
         public NewsGroup NewsGroup { get; set; }
 

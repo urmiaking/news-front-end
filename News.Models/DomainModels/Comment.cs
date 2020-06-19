@@ -12,9 +12,11 @@ namespace News.Models.DomainModels
 
         public bool IsConfirmed { get; set; }
 
+        public int NewsId { get; set; }
+
         public News News { get; set; }
 
-        public User User { get; set; }
+        public int UserId { get; set; }
 
         public DateTime DateTime { get; set; }
     }

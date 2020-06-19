@@ -1,4 +1,5 @@
 ﻿@using News.Utilities.DateTimeUtility
+@inject IUserRepository UserRepository
 @model News
 @{
     ViewData["Title"] = Model.Title;
@@ -47,13 +48,14 @@
         {
             foreach (var comment in Model.Comments)
             {
+                var user = await UserRepository.GetUserByIdAsync(comment.UserId);
                 <div class="row p-5">
                     <div class="comment">
                         <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
                         <div class="comment-body">
                             <div class="comment-text">
                                 <div class="comment-header">
-                                    <a href="#" title="">@comment.User.FullName </a><span>&nbsp; @comment.DateTime.ElapsedTime()</span>
+                                    <a href="#" title="">@user.FullName </a><span>&nbsp; @comment.DateTime.ElapsedTime()</span>
                                 </div>
                                 @comment.Content
                             </div>
