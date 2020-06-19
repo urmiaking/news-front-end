@@ -75,14 +75,12 @@ namespace News.Services.Services
 
         public async Task InsertNewsGroupAsync(NewsGroup newsGroup)
         {
-            var result = new NewsGroup();
             using (var client = new HttpClient())
             {
                 StringContent content = new StringContent(JsonConvert.SerializeObject(newsGroup), Encoding.UTF8, "application/json");
                 using (var response = await client.PostAsync($"http://{server}:{port}/api/NewsGroups/PostNewsGroup", content))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    result = JsonConvert.DeserializeObject<NewsGroup>(apiResponse);
                 }
             }
         }

@@ -1,6 +1,7 @@
 ﻿@using News.Utilities.DateTimeUtility
 @inject IUserRepository UserRepository
 @inject INewsGroupRepository NewsGroupRepository
+@inject ICommentRepository CommentRepository
 @model News
 @{
     ViewData["Title"] = Model.Title;
@@ -46,31 +47,34 @@
 <section class="category-section border-radius">
     <header><i class="fa fa-comment-o"></i> <h3> نظرات </h3></header>
     <div class="container-fluid">
-        @if (Model.Comments != null)
-        {
-            foreach (var comment in Model.Comments)
+        @{
+            var comments = await CommentRepository.GetAllCommentsByNewsIdAsync(Model.Id);
+            if (comments.Any())
             {
-                var user = await UserRepository.GetUserByIdAsync(comment.UserId);
-                <div class="row p-5">
-                    <div class="comment">
-                        <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
-                        <div class="comment-body">
-                            <div class="comment-text">
-                                <div class="comment-header">
-                                    <a href="#" title="">@user.FullName </a><span>&nbsp; @comment.DateTime.ElapsedTime()</span>
+                foreach (var comment in comments)
+                {
+                    var user = await UserRepository.GetUserByIdAsync(comment.UserId);
+                    <div class="row p-5">
+                        <div class="comment">
+                            <img src="/img/avatar-cm.png" alt="" class="comment-avatar">
+                            <div class="comment-body">
+                                <div class="comment-text">
+                                    <div class="comment-header">
+                                        <a href="#" title="">@user.FullName </a><span>&nbsp; @comment.DateTime.ElapsedTime()</span>
+                                    </div>
+                                    @comment.Content
                                 </div>
-                                @comment.Content
                             </div>
                         </div>
                     </div>
+                }
+            }
+            else
+            {
+                <div class="text-center p-5">
+                    هیچ نظری وجود ندارد.
                 </div>
             }
-        }
-        else
-        {
-            <div class="text-center p-5">
-                هیچ نظری وجود ندارد.
-            </div>
         }
     </div>
 </section>

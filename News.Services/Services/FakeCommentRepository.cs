@@ -33,5 +33,10 @@ namespace News.Services.Services
             dbNews.Comments.Add(comment);
             await _newsRepository.UpdateNewsAsync(dbNews);
         }
+
+        public Task<IEnumerable<Comment>> GetAllCommentsByNewsIdAsync(int newsId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

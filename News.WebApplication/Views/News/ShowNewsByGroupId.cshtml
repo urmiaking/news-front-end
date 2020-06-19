@@ -6,17 +6,26 @@
 <section class="last-news-section border-radius">
     <header><i class="icons icon-doc-2"></i>  <h3>آخرین اخبار ارسالی گروه @ViewData["GroupTitle"]</h3> </header>
     <ul>
-        @foreach (var item in Model)
+        @if (Model.Any())
         {
-            <li>
-                <img class="border-radius" src="/img/news-images/@item.ImageName">
-                <h2> <a asp-controller="News" asp-action="ShowNews" asp-route-newsId="@item.Id"> @item.Title </a></h2>
-                <p>
-                    @item.ShortDescription
-                </p>
-                <span class="date-publish"><i class="fa fa-calendar"></i> انتشار : @item.CreateDate.ToPersianDateString() </span>
-                <a asp-controller="News" asp-action="ShowNews" asp-route-newsId="@item.Id" class="more-link"><i class="icons icon-more"></i></a>
-            </li>
+            @foreach (var item in Model)
+            {
+                <li>
+                    <img class="border-radius" src="/img/news-images/@item.ImageName">
+                    <h2> <a asp-controller="News" asp-action="ShowNews" asp-route-newsId="@item.Id"> @item.Title </a></h2>
+                    <p>
+                        @item.ShortDescription
+                    </p>
+                    <span class="date-publish"><i class="fa fa-calendar"></i> انتشار : @item.CreateDate.ToPersianDateString() </span>
+                    <a asp-controller="News" asp-action="ShowNews" asp-route-newsId="@item.Id" class="more-link"><i class="icons icon-more"></i></a>
+                </li>
+            }
+        }
+        else
+        {
+            <div class="margin-top-down text-center">
+                موردی یافت نشد
+            </div>
         }
     </ul>
 </section>

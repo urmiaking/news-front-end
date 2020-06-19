@@ -29,7 +29,7 @@ namespace News.WebApplication
             services.AddSingleton<INewsGroupRepository, RealNewsGroupRepository>();
             services.AddSingleton<IUserRepository, RealUserRepository>();
             services.AddSingleton<IMailRepository, RealMailRepository>();
-            services.AddSingleton<ICommentRepository, FakeCommentRepository>();
+            services.AddSingleton<ICommentRepository, RealCommentRepository>();
             services.AddHttpContextAccessor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {

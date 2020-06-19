@@ -48,7 +48,6 @@ namespace News.WebApplication.Controllers
                 Content = content,
                 DateTime = DateTime.Now,
                 IsConfirmed = true,
-                News = news,
                 NewsId = newsId,
                 UserId = user.Id
             };
