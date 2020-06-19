@@ -89,13 +89,6 @@ namespace News.Services.Services
 
         }
 
-        public async Task<bool> NewsGroupExistsAsync(int newsGroupId)
-        {
-            var newsGroupExist = newsGroups.Any(a => a.Id.Equals(newsGroupId));
-            await Task.Run(() => { return newsGroupExist; });
-            return newsGroupExist;
-        }
-
         public async Task<List<ShowGroupsViewModel>> GetListGroupsAsync()
         {
             var newsGroupList = newsGroups.Select(g => new ShowGroupsViewModel()
