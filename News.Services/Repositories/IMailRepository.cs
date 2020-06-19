@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using News.Models.MetaModels;
 
 namespace News.Services.Repositories
 {
     public interface IMailRepository
     {
-        bool SendEmail(string emailAddress, string body, string subject);
+        Task<bool> SendEmail(Mail mail);
 
         Task<bool> SendActivationLinkAsync(string userEmail);
 

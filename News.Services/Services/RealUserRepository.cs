@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using News.Models.DomainModels;
 using News.Models.ViewModels;
 using News.Services.Repositories;
@@ -22,11 +23,14 @@ namespace News.Services.Services
         private readonly int port;
         private readonly string server;
 
-        public RealUserRepository(IHttpContextAccessor httpContextAccessor)
+        public IConfiguration Configuration { get; }
+
+        public RealUserRepository(IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _httpContextAccessor = httpContextAccessor;
-            port = 1000;
-            server = "localhost";
+            Configuration = configuration;
+            port = int.Parse(Configuration["UsersMS.Port"]);
+            server = Configuration["UsersMS.Server"];
         }
         public async Task<string> GetHashAsync(string password)
         {
@@ -154,6 +158,11 @@ namespace News.Services.Services
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     user = JsonConvert.DeserializeObject<User>(apiResponse);
                 }
+            }
+
+            if (user.Id == 0)
+            {
+                return null;
             }
 
             return user;

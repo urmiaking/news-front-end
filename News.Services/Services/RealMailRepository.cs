@@ -1,70 +1,52 @@
-﻿using News.Services.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Net.Mail;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using News.Models.DomainModels;
 using News.Models.MetaModels;
+using News.Services.Repositories;
+using Newtonsoft.Json;
 
 namespace News.Services.Services
 {
-    public class FakeMailRepository : IMailRepository
+    public class RealMailRepository : IMailRepository
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private MailServer _mailServer;
         private readonly IUserRepository _userRepository;
-        public FakeMailRepository(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository)
+        private readonly int port;
+        private readonly string server;
+        public IConfiguration Configuration { get; }
+
+        public RealMailRepository(IHttpContextAccessor httpContextAccessor, IUserRepository userRepository, IConfiguration configuration)
         {
             _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
-
-            _mailServer = new MailServer()
-            {
-                Id = 1,
-                Email = "masoud.xpress@gmail.com",
-                Host = "smtp.gmail.com",
-                Password = "MASOUD7559",
-                Port = 587,
-                ServerType = "gmail"
-            };
+            Configuration = configuration;
+            port = int.Parse(Configuration["MailMS.Port"]);
+            server = Configuration["MailMS.Server"];
         }
+
         public async Task<bool> SendEmail(Mail mail)
         {
-            var server = _mailServer;
-
-            await Task.Run(() => { });
-
-            if (server == null)
+            string apiResponse;
+            using (var client = new HttpClient())
             {
-                return false;
-            }
-            try
-            {
-                using (MailMessage mm = new MailMessage(server.Email, mail.To))
+                StringContent content = new StringContent(JsonConvert.SerializeObject(mail), Encoding.UTF8, "application/json");
+                using (var response = await client.PostAsync($"http://{server}:{port}/api/Mail/SendMail", content))
                 {
-                    mm.Subject = mail.Subject;
-                    mm.Body = mail.Body;
-
-                    mm.IsBodyHtml = true;
-                    SmtpClient smtp = new SmtpClient();
-                    smtp.Host = server.Host;
-                    smtp.EnableSsl = true;
-
-                    NetworkCredential networkCredential = new NetworkCredential(server.Email, server.Password);
-                    smtp.Credentials = networkCredential;
-                    smtp.Port = server.Port;
-                    smtp.Send(mm);
-
-                    return true;
+                    apiResponse = await response.Content.ReadAsStringAsync();
                 }
             }
-            catch (Exception e)
+
+            if (!string.IsNullOrEmpty(apiResponse))
             {
-                Console.WriteLine(e);
                 return false;
             }
+
+            return true;
         }
 
         public async Task<bool> SendActivationLinkAsync(string userEmail)

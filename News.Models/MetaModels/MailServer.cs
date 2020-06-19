@@ -6,6 +6,7 @@ namespace News.Models.MetaModels
 {
     public class MailServer
     {
+        public int Id { get; set; }
         public string ServerType { get; set; }
         public string Email { get; set; }
         public int Port { get; set; }

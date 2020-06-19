@@ -28,7 +28,7 @@ namespace News.WebApplication
             services.AddSingleton<INewsRepository, FakeNewsRepository>();
             services.AddSingleton<INewsGroupRepository, FakeNewsGroupRepository>();
             services.AddSingleton<IUserRepository, RealUserRepository>();
-            services.AddSingleton<IMailRepository, FakeMailRepository>();
+            services.AddSingleton<IMailRepository, RealMailRepository>();
             services.AddSingleton<ICommentRepository, FakeCommentRepository>();
             services.AddHttpContextAccessor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
