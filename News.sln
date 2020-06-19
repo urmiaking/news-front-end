@@ -12,7 +12,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "News.Models", "News.Models\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "News.Services", "News.Services\News.Services.csproj", "{67ACBC9D-A536-4DEC-A0BC-0B0FC57C4CA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "News.Utilities", "News.Utilities\News.Utilities.csproj", "{28702B9C-A4AE-428C-BA2B-6F4EAC7F4AEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "News.Utilities", "News.Utilities\News.Utilities.csproj", "{28702B9C-A4AE-428C-BA2B-6F4EAC7F4AEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

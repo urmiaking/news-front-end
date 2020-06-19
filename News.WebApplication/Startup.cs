@@ -27,7 +27,7 @@ namespace News.WebApplication
             services.AddControllersWithViews();
             services.AddSingleton<INewsRepository, FakeNewsRepository>();
             services.AddSingleton<INewsGroupRepository, FakeNewsGroupRepository>();
-            services.AddSingleton<IUserRepository, FakeUserRepository>();
+            services.AddSingleton<IUserRepository, RealUserRepository>();
             services.AddSingleton<IMailRepository, FakeMailRepository>();
             services.AddSingleton<ICommentRepository, FakeCommentRepository>();
             services.AddHttpContextAccessor();
