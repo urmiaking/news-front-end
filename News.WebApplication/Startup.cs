@@ -25,7 +25,7 @@ namespace News.WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSingleton<INewsRepository, FakeNewsRepository>();
+            services.AddSingleton<INewsRepository, RealNewsRepository>();
             services.AddSingleton<INewsGroupRepository, RealNewsGroupRepository>();
             services.AddSingleton<IUserRepository, RealUserRepository>();
             services.AddSingleton<IMailRepository, RealMailRepository>();

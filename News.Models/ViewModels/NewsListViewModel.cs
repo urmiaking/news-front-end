@@ -26,6 +26,6 @@ namespace News.Models.ViewModels
         [Display(Name = "تعداد بازدید")]
         public int VisitCount { get; set; }
 
-        public NewsGroup NewsGroup { get; set; }
+        public int NewsGroupId { get; set; }
     }
 }

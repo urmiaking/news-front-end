@@ -1,8 +1,10 @@
 ﻿@using News.Utilities.DateTimeUtility
 @inject IUserRepository UserRepository
+@inject INewsGroupRepository NewsGroupRepository
 @model News
 @{
     ViewData["Title"] = Model.Title;
+    var newsGroup = await NewsGroupRepository.GetNewsGroupByIdAsync(Model.NewsGroupId);
 }
 
 
@@ -10,7 +12,7 @@
 <ul class="breadcrumb">
     <li class="breadcrumb-item"><a href="/">خانه </a></li>
     <li class="breadcrumb-item"><a href="/">اخبار </a></li>
-    <li class="breadcrumb-item"><a href="/Group/@Model.NewsGroupId/@Model.NewsGroup.GroupTitle">@Model.NewsGroup.GroupTitle  </a></li>
+    <li class="breadcrumb-item"><a href="/Group/@Model.NewsGroupId/@newsGroup.GroupTitle">@newsGroup.GroupTitle  </a></li>
     <li class="breadcrumb-item active">@Model.Title </li>
 </ul>
 

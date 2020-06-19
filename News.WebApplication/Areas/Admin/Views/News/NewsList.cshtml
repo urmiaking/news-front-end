@@ -1,5 +1,5 @@
 ﻿@model PaginatedList<NewsListViewModel>
-
+@inject INewsGroupRepository NewsGroup
 @{
     ViewData["Title"] = "مدیریت اخبار";
     int i = 1;
@@ -39,6 +39,7 @@
         <tbody>
             @foreach (var item in Model)
             {
+                var newsGroup = await NewsGroup.GetNewsGroupByIdAsync(item.NewsGroupId);
                 var deleteBtnId = "btn-delete-" + i;
                 <tr id="row-@i">
                     <td>
@@ -48,7 +49,7 @@
                         @Html.DisplayFor(modelItem => item.Title)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.NewsGroup.GroupTitle)
+                        @newsGroup.GroupTitle
                     </td>
                     <td>
                         @item.CreateDate.ToPersianDateString()

@@ -40,7 +40,7 @@ namespace News.WebApplication.Areas.Admin.Controllers
                     ImageName = news.ImageName,
                     Title = news.Title,
                     VisitCount = news.VisitCount,
-                    NewsGroup = news.NewsGroup
+                    NewsGroupId = news.NewsGroupId
                 };
                 newsModel.Add(newsList);
             }
@@ -87,13 +87,13 @@ namespace News.WebApplication.Areas.Admin.Controllers
                 return View(news);
             }
 
-            var rnd = new Random();
-            news.Id = rnd.Next();
+            //var rnd = new Random();
+            //news.Id = rnd.Next();
             news.CreateDate = DateTime.Now;
             news.ImageName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
             news.VisitCount = 0;
             news.NewsGroupId = newsGroup.Id;
-            news.NewsGroup = newsGroup;
+            //news.NewsGroup = newsGroup;
 
             try
             {
@@ -207,7 +207,6 @@ namespace News.WebApplication.Areas.Admin.Controllers
                     }
                 }
 
-                news.NewsGroup = await _newsGroupRepository.GetNewsGroupByIdAsync(news.NewsGroupId);
                 await _newsRepository.UpdateNewsAsync(news);
             }
             catch (DbUpdateConcurrencyException)
