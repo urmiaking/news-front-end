@@ -25,11 +25,11 @@ namespace News.WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddTransient<INewsRepository, RealNewsRepository>();
-            services.AddTransient<INewsGroupRepository, RealNewsGroupRepository>();
-            services.AddTransient<IUserRepository, RealUserRepository>();
-            services.AddTransient<IMailRepository, RealMailRepository>();
-            services.AddTransient<ICommentRepository, RealCommentRepository>();
+            services.AddSingleton<INewsRepository, RealNewsRepository>();
+            services.AddSingleton<INewsGroupRepository, RealNewsGroupRepository>();
+            services.AddSingleton<IUserRepository, RealUserRepository>();
+            services.AddSingleton<IMailRepository, RealMailRepository>();
+            services.AddSingleton<ICommentRepository, RealCommentRepository>();
             services.AddHttpContextAccessor();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
             {
