@@ -35,7 +35,7 @@ namespace News.WebApplication.Controllers
         public async Task<IActionResult> ShowNewsByGroupId(int groupId, string title, int? page)
         {
             var news = await _newsRepository.GetNewsByGroupIdAsync(groupId);
-
+                
             int pageSize = 5;
             int pageNumber = (page ?? 1);
 
