@@ -7,7 +7,7 @@
         {
             <li>
                 <img class="border-radius" src="/img/news-images/@item.ImageName">
-                <h2> <a asp-controller="News" asp-action="ShowNews" asp-route-newsId="@item.Id">@item.Title</a></h2>
+                <h2> <a style="display: inherit;" asp-controller="News" asp-action="ShowNews" asp-route-newsId="@item.Id">@item.Title</a></h2>
                 <span>انتشار : @item.CreateDate.ToPersianDateString()</span>
             </li>
         }
